@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Fiction Express Blog</title>
+</head>
+
+<body>
+  <h1>Welcome to Fiction Express Blog!</h1>
+
+  {% if posts %}
+  <ul>
+    {% for post in posts %}
+    <li><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        <i>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</i>
+      </span>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+
+  {% else %}
+  <p>No posts are available.</p>
+  {% endif %}
+
+  <br>
+  <hr>
+
+  <h2>New Post</h2>
+
+  <form action="{% url 'posts:create' %}" method="post">
+    {% csrf_token %}
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content" rows="4" cols="70"></textarea>
+    <input type="submit" value="Submit">
+  </form>
+
+  <br>
+  <small>{{ user.username }} <a href="{% url 'posts:logout' %}">(Logout)</a></small>
+</body>
+
+</html>

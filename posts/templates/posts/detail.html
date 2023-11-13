@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Fiction Express Blog</title>
+</head>
+
+<body>
+  <h1>{{ post.title }}</h1>
+
+  <p>{{ post.content }}</p>
+  <br>
+  <p><i>Date posted: {{ post.date_posted }}</i></p>
+  <p><i>Author: {{ post.author.get_full_name }}</i></p>
+
+  {% if user.role == 'admin' %}
+  <p><a href="{% url 'posts:delete' post.id %}">Delete post</a></p>
+  {% endif %}
+
+  <hr>
+  <p><a href="{% url 'posts:home' %}">Go back</a></p>
+</body>
+
+</html>
